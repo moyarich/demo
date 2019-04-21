@@ -3,36 +3,34 @@
 
 ## Database:
 
-Firebase
+ 1. Firebase
+	  https://firebase.google.com
+	  https://firebase.google.com/docs/database/android/read-and-write
+ 2. MongoDB
+ 3. Fake data - a List data structure
 
-- https://firebase.google.com
-- https://firebase.google.com/docs/database/android/read-and-write
 
-MongoDB
-
-#firebase server admin
+## Firebase server admin
 
 https://firebase.google.com/docs/admin/setup
 
-##Add Firebase to your app
+## Add Firebase to your app
 
-To use the Firebase Admin SDKs, you'll need a Firebase project, a service account to communicate with the Firebase service, and a configuration file with your service account's credentials. 
+>To use the Firebase Admin SDKs, you'll need a Firebase project, a service account to communicate with the Firebase service, >and a configuration file with your service account's credentials. 
 
-If you don't already have a Firebase project, add one in the Firebase console[https://console.firebase.google.com/]. 
-The Add project dialog also gives you the option to add Firebase to an existing Google Cloud Platform project.
+>If you don't already have a Firebase project, add one in the Firebase console[https://console.firebase.google.com/]. 
+>
 
+**rename the JSON File to "service_account.json" and place file in the location below:**
 
-
-rename the JSON File to "service_account.json" and place file in the location below:
+```sh
 src\main\resources
+```
+![firebase project settings](fireabase_project_setting.png)
+
 
 
 src\main\resources\service_account.json"
-
-
-## How to make contributions?
-This is a group project, sorry you cannot contrubute unless you are a prt of the group
-
 
 
 Rest API testing tool
@@ -55,3 +53,11 @@ Body - raw - JSON(application/json)
 }
 ```
 ![postMan Insert Data](postman_insert_data.png)
+
+
+
+
+## How to make contributions?
+This is a group project, sorry you cannot contrubute unless you are a prt of the group
+
+
