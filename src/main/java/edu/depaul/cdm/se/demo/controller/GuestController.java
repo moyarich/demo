@@ -20,12 +20,12 @@ public class GuestController {
         return guestService.getAllGuests();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     public Guest getGuestById(@PathVariable("id") String id){
         return guestService.getGuestById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
     public void deleteGuestById(@PathVariable("id") String id){
         guestService.deleteGuestById(id);
     }

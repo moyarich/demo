@@ -21,9 +21,13 @@ public class FakeGuestDaoImpl implements IGuestDao {
         guestList = new HashMap<String, Guest>(){
 
             {
-                put("1", new Guest("1", "Said","anon@example.com"));
+/*                put("1", new Guest("1", "Said","anon@example.com"));
                 put("2", new Guest("2", "Alex U","alex@example.com"));
-                put("3", new Guest("3", "Anna","anna@example.com"));
+                put("3", new Guest("3", "Anna","anna@example.com"));*/
+
+                put("1", new Guest("Said","anon@example.com"));
+                put("2", new Guest("Alex U","alex@example.com"));
+                put("3", new Guest("Anna","anna@example.com"));
             }
         };
     }

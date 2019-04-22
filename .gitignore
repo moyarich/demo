@@ -124,4 +124,7 @@ fabric.properties
 
 ### project files ###
 service_account.json
+application.properties
+
 src/main/resources/service_account.json
+src/main/resources/application.properties
