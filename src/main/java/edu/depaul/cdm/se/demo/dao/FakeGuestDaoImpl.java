@@ -2,13 +2,13 @@ package edu.depaul.cdm.se.demo.dao;
 
 
 
+import edu.depaul.cdm.se.demo.entity.Amenity;
 import edu.depaul.cdm.se.demo.entity.Guest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.request.async.DeferredResult;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Qualifier("fakeGuestData")
@@ -21,22 +21,52 @@ public class FakeGuestDaoImpl implements IGuestDao {
         guestList = new HashMap<String, Guest>(){
 
             {
-/*                put("1", new Guest("1", "Said","anon@example.com"));
-                put("2", new Guest("2", "Alex U","alex@example.com"));
-                put("3", new Guest("3", "Anna","anna@example.com"));*/
+                Guest g1 = new Guest();
+                g1.setId("1");
+                g1.setName("Said");
+                g1.setEmail("anon@example.com");
 
-                put("1", new Guest("Said","anon@example.com"));
-                put("2", new Guest("Alex U","alex@example.com"));
-                put("3", new Guest("Anna","anna@example.com"));
+                Guest g2 = new Guest();
+                g2.setId("2");
+                g2.setName("Alex U");
+                g2.setEmail("alex@example.com");
+
+                Guest g3 = new Guest();
+                g3.setId("3");
+                g3.setName("Anna");
+                g3.setEmail("anna@example.com");
+
+
+                put("1", g1);
+                put("2", g2);
+                put("3", g3);
+                put("4", g3);
             }
         };
     }
 
     @Override
-    public Collection<Guest> getAllGuests(){
-        return this.guestList.values();
+    public DeferredResult<Map<String, Guest>> getAllGuests() {
+        final DeferredResult<Map<String, Guest>> result = new DeferredResult();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    result.setResult(guestList);
+                }
+                catch (Exception ex) {
+                    result.setErrorResult(ex);
+                }
+            }
+        }).start();
+        return result;
     }
 
+ /*   @Override
+    public Collection<Guest> getA_temp(){
+        return this.guestList.values();
+    }
+*/
     @Override
     public Guest getGuestById(String id){
         return this.guestList.get(id);

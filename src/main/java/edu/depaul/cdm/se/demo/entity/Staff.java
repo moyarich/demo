@@ -8,9 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * POJO representing a Guest stored in the Firebase Database.
  */
@@ -21,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Guest {
+public class Staff {
 
     @Id
     private String id;
@@ -32,11 +29,10 @@ public class Guest {
 
     private Address address;
 
-
-    public Guest() {
+    public Staff() {
     }
 
-    public Guest(String id, String name, String email) {
+    public Staff(String id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;

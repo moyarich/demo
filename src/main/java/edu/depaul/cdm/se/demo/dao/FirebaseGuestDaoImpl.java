@@ -7,37 +7,47 @@ import com.google.firebase.database.*;
 import edu.depaul.cdm.se.demo.entity.Guest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.*;
 
 @Repository
 @Qualifier("firebaseGuestData")
-public class FirebaseGuestDaoImpl implements IGuestDao {
+public class FirebaseGuestDaoImpl implements IGuestDao{
 
     @Autowired
     DatabaseReference firebaseDatabse;
 
-    private static Map<String, Guest> guestList;
+    //DeferredResult<Map<String, Guest>>
 
     @Override
-    public Collection<Guest> getAllGuests(){
+    public DeferredResult<Map<String, Guest>> getAllGuests() {
+        final DeferredResult<Map<String, Guest>> result = new DeferredResult();
+
         DatabaseReference dataRef = firebaseDatabse.child("guests");
         dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
                 // Get Guest as lists
-                guestList = snapshot.getValue(new GenericTypeIndicator<Map<String, Guest>>() {});
+                Map<String, Guest>  guestList = snapshot.getValue(new GenericTypeIndicator<Map<String, Guest>>() {});
 
                 // do something here
-                System.out.println("get all guest" + guestList.values().toString());
+                System.out.println("-------------------------get all guest" + guestList.values().toString());
+
+                result.setResult(guestList);
             }
 
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("Error: could not get all guest");
+
+                result.setErrorResult(databaseError);
             }
         });
 
-        return this.guestList.values();
+        return result;
     }
 
 
@@ -49,7 +59,27 @@ public class FirebaseGuestDaoImpl implements IGuestDao {
 
     @Override
     public void deleteGuestById(String id) {
+        DatabaseReference dataRef = firebaseDatabse.child("guests");
 
+
+        dataRef.orderByKey().equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postsnapshot : dataSnapshot.getChildren()) {
+
+                    String key = postsnapshot.getKey();
+                    dataSnapshot.getRef().removeValueAsync();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: could not delete guest");
+            }
+        } );
     }
 
     @Override

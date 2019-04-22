@@ -1,6 +1,5 @@
 package edu.depaul.cdm.se.demo.entity;
 
-//https://firebase.google.com/docs/database/android/read-and-write
 
 import com.google.firebase.database.IgnoreExtraProperties;
 import lombok.Getter;
@@ -8,12 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * POJO representing a Guest stored in the Firebase Database.
- */
 
 
 
@@ -21,24 +15,25 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Guest {
-
+public class Amenity {
     @Id
     private String id;
 
     private String name;
 
-    private String email;
-
-    private Address address;
+    private int quantity;
 
 
-    public Guest() {
-    }
+    public Amenity(){};
 
-    public Guest(String id, String name, String email) {
+    public Amenity(String id, String name) {
         this.id = id;
         this.name = name;
-        this.email = email;
+    }
+
+    public Amenity(String id, String name, int quantity) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @Repository
 public interface IMongoGuestRepository extends MongoRepository<Guest, String> {
 
@@ -12,4 +15,6 @@ public interface IMongoGuestRepository extends MongoRepository<Guest, String> {
 
     @Query("{ 'id' : ?0 }")
     Guest getGuestById(String model);
+
+    //CompletableFuture<Guest> findOneById(final String id);
 }

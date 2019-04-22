@@ -155,10 +155,9 @@ Body - raw - JSON(application/json)
 }
 ```
 
-
+# UML
+![Project UML](UML_class_diagram.png)
 
 
 # How to make contributions?
 This is a group project, sorry you cannot contribute unless you are a part of the group
-
-

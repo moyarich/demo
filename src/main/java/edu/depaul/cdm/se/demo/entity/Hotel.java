@@ -21,24 +21,23 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Guest {
+public class Hotel {
 
     @Id
     private String id;
 
     private String name;
 
-    private String email;
-
     private Address address;
 
+    private List<Room> rooms = new ArrayList<>();
 
-    public Guest() {
+    public Hotel() {
     }
 
-    public Guest(String id, String name, String email) {
+    public Hotel(String id, String name, Address address) {
         this.id = id;
         this.name = name;
-        this.email = email;
+        this.address = address;
     }
 }
