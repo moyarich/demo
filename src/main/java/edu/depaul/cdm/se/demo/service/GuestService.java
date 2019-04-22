@@ -13,7 +13,7 @@ import java.util.Collection;
 public class GuestService {
 
     @Autowired
-    @Qualifier("mongoData")
+    @Qualifier("mongoGuestData")
     private IGuestDao guestDao;
 
     public Collection<Guest> getAllGuests(){

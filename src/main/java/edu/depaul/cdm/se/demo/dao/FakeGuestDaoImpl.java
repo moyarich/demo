@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-@Qualifier("fakeData")
+@Qualifier("fakeGuestData")
 public class FakeGuestDaoImpl implements IGuestDao {
 
     private static Map<String, Guest> guestList;

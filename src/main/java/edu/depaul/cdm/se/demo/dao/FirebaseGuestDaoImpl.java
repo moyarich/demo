@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Qualifier("firebaseData")
+@Qualifier("firebaseGuestData")
 public class FirebaseGuestDaoImpl implements IGuestDao {
 
     @Autowired

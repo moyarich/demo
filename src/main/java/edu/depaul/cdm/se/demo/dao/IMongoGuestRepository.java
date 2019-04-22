@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GuestRepository extends MongoRepository<Guest, String> {
+public interface IMongoGuestRepository extends MongoRepository<Guest, String> {
 
     // Declare query methods here
 

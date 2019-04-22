@@ -1,13 +1,68 @@
-# Hotel
+# Hotel Reservation
 
 
-## Database:
+# Database Managers:
 
  1. Firebase
 	  https://firebase.google.com
 	  https://firebase.google.com/docs/database/android/read-and-write
  2. MongoDB
  3. Fake data - a List data structure
+
+##How to switch database manager
+
+To switch to a different database manager, change the name of the  [@Qualifier](https://www.logicbig.com/tutorials/spring-framework/spring-core/inject-bean-by-name.html)
+In the database service
+
+
+##| Table : Guest  
+```java
+
+@Service
+public class GuestService {
+
+    @Autowired
+    @Qualifier("mongoGuestData")
+    private IGuestDao guestDao;
+
+    ....
+}
+```
+
++------------------------------------------------------------------------------------------+
+| Table : Guest                                                                            |
++------------------------------------------------------------------------------------------+
+| Database  | @Qualifier         | Sample Code                                              |
++-----------+-------------------+----------------------------------------------------------+
+| Firebase  | firebaseGuestData | ```java                                                  |
+|           |                   | @Repository                                              |
+|           |                   | @Qualifier("firebaseGuestData")                          |
+|           |                   | public class FirebaseGuestDaoImpl implements IGuestDao { |
+|           |                   |     ....                                                 |
+|           |                   | }                                                        |
+|           |                   | ```                                                      |
++-----------+-------------------+----------------------------------------------------------+
+| MongoDb   | mongoGuestData    | ```java                                                  |
+|           |                   |                                                          |
+|           |                   | @Repository                                              |
+|           |                   | @Qualifier("mongoGuestData")                             |
+|           |                   | public class MongoGuestDaoImpl implements IGuestDao{     |
+|           |                   |     ....                                                 |
+|           |                   | }                                                        |
+|           |                   | ```                                                      |
++-----------+-------------------+----------------------------------------------------------+
+| FakeGuest | fakeGuestData     | ```java                                                  |
+|           |                   | @Repository                                              |
+|           |                   | @Qualifier("fakeGuestData")                              |
+|           |                   | public class FakeGuestDaoImpl implements IGuestDao {     |
+|           |                   |     ....                                                 |
+|           |                   | }                                                        |
+|           |                   | ```                                                      |
++-----------+-------------------+----------------------------------------------------------+
+<sub>Table created with: https://www.tablesgenerator.com/text_tables</sub>
+
+
+
 
 
 ## Firebase server admin
@@ -103,10 +158,7 @@ Body - raw - JSON(application/json)
 
 
 
-
-
-
-## How to make contributions?
-This is a group project, sorry you cannot contrubute unless you are a prt of the group
+# How to make contributions?
+This is a group project, sorry you cannot contribute unless you are a part of the group
 
 

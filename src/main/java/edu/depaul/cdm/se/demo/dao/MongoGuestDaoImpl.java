@@ -2,25 +2,20 @@ package edu.depaul.cdm.se.demo.dao;
 
 
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import edu.depaul.cdm.se.demo.entity.Guest;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Repository
-@Qualifier("mongoData")
+@Qualifier("mongoGuestData")
 public class MongoGuestDaoImpl implements IGuestDao{
 
     @Autowired
-    private GuestRepository repository;
+    private IMongoGuestRepository repository;
 
     private static Map<String, Guest> guestList;
 
