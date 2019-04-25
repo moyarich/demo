@@ -15,11 +15,9 @@ public class ReservedRoom {
     @Id
     private String id;
 
-    private String ReservationID;
-
     private Integer numberOfGuest;
 
-    private Room Room;
+    private String roomId;
 
     public ReservedRoom() {
     }

@@ -31,38 +31,37 @@ public class GuestService {
     ....
 }
 ```
+Table : Guest  
 
-|------------------------------------------------------------------------------------------|
-| Table : Guest                                                                            |
-|------------------------------------------------------------------------------------------|
+
 | Database  | @Qualifier        | Sample Code                                              |
 |-----------|-------------------|----------------------------------------------------------|
 | Firebase  | firebaseGuestData | ```java                                                  |
-|           |                   | @Repository                                              |
-|           |                   | @Qualifier("firebaseGuestData")                          |
-|           |                   | public class FirebaseGuestDaoImpl implements IGuestDao { |
-|           |                   |     ....                                                 |
-|           |                   | }                                                        |
-|           |                   | ```                                                      |
+                                @Repository                                              
+                                @Qualifier("firebaseGuestData")                          
+                                public class FirebaseGuestDaoImpl implements IGuestDao { 
+                                    ....                                                 
+                                }                                                        
+                                ```                                                      
 |-----------|-------------------|----------------------------------------------------------|
 | MongoDb   | mongoGuestData    | ```java                                                  |
-|           |                   |                                                          |
-|           |                   | @Repository                                              |
-|           |                   | @Qualifier("mongoGuestData")                             |
-|           |                   | public class MongoGuestDaoImpl implements IGuestDao{     |
-|           |                   |     ....                                                 |
-|           |                   | }                                                        |
-|           |                   | ```                                                      |
+                                                                                           
+                                  @Repository                                              
+                                  @Qualifier("mongoGuestData")                             
+                                  public class MongoGuestDaoImpl implements IGuestDao{     
+                                      ....                                                 
+                                  }                                                        
+                                  ```                                                      
 |-----------|-------------------|----------------------------------------------------------|
 | FakeGuest | fakeGuestData     | ```java                                                  |
-|           |                   | @Repository                                              |
-|           |                   | @Qualifier("fakeGuestData")                              |
-|           |                   | public class FakeGuestDaoImpl implements IGuestDao {     |
-|           |                   |     ....                                                 |
-|           |                   | }                                                        |
-|           |                   | ```                                                      |
-|-----------|-------------------|----------------------------------------------------------|
-<sub>Table created with: https://www.tablesgenerator.com/text_tables</sub>
+                                  @Repository                                              
+                                  @Qualifier("fakeGuestData")                              
+                                  public class FakeGuestDaoImpl implements IGuestDao {     
+                                      ....                                                 
+                                  }                                                        
+                                  ```                                                      
+
+
 
 
 *****
@@ -162,7 +161,7 @@ Body - raw - JSON(application/json)
 ```
 
 # UML
-![Project UML](UML_class_diagram.png)
+![Project UML](img/Se452-UML_class_diagram.png)
 
 
 # How to make contributions?

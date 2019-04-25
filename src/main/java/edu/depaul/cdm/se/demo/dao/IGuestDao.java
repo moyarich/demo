@@ -13,7 +13,9 @@ public interface IGuestDao {
 
     void deleteGuestById(String id);
 
-    void updateGuest(Guest guest);
+    void updateGuest(Guest updatedGuest);
+
+    Guest updateById(String id, Guest updatedGuest);
 
     void insertGuest(Guest guest);
 }

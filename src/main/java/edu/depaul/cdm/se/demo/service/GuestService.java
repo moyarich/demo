@@ -10,15 +10,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import java.util.Collection;
 import java.util.Map;
 
 @Service
 public class GuestService {
 
     @Autowired
-    //@Qualifier("firebaseGuestData")
-    @Qualifier("mongoGuestData")
+    @Qualifier("firebaseGuestData")
+    //@Qualifier("mongoGuestData")
+    //@Qualifier("fakeGuestData")
+
     private IGuestDao guestDao;
 
 /*    public Collection<Guest> getAllGuests(){
@@ -37,6 +38,10 @@ public class GuestService {
         this.guestDao.updateGuest(guest);
     }
 
+    public Guest update(String id,Guest updatedGuest) {
+        return this.guestDao.updateById(id, updatedGuest);
+    }
+
     public void insertGuest(Guest guest) {
         this.guestDao.insertGuest(guest);
     }
@@ -49,7 +54,7 @@ public class GuestService {
             @Override
             public void run() {
                 try {
-                    future.set("hi there moya");
+                    future.set("testAsync-------hi there moya");
                 } catch (Exception e) {
                     future.setException(e);
                 }

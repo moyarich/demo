@@ -18,7 +18,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 @ToString
-public class Staff {
+public class Employee {
 
     @Id
     private String id;
@@ -29,10 +29,10 @@ public class Staff {
 
     private Address address;
 
-    public Staff() {
+    public Employee() {
     }
 
-    public Staff(String id, String name, String email) {
+    public Employee(String id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;

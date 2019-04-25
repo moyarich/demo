@@ -2,10 +2,13 @@ package edu.depaul.cdm.se.demo.dao;
 
 
 
+import edu.depaul.cdm.se.demo.controller.ResourceNotFoundException;
 import edu.depaul.cdm.se.demo.entity.Guest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.Collection;
@@ -19,8 +22,6 @@ public class MongoGuestDaoImpl implements IGuestDao{
 
     @Autowired
     private IMongoGuestRepository repository;
-
-    private static Collection<Guest> guestList;
 
     @Override
     public DeferredResult<Map<String, Guest>> getAllGuests() {
@@ -43,11 +44,17 @@ public class MongoGuestDaoImpl implements IGuestDao{
         return result;
     }
 
-
     @Override
     public Guest getGuestById(String id) {
-        return repository.getGuestById(id);
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException());
     }
+
+
+
+/*    public Guest getGuestById(String id) {
+        return repository.getGuestById(id);
+    }*/
 
     @Override
     public void deleteGuestById(String id) {
@@ -55,9 +62,24 @@ public class MongoGuestDaoImpl implements IGuestDao{
     }
 
     @Override
-    public void updateGuest(Guest guest) {
-        repository.save(guest);
+    public void updateGuest(Guest updatedGuest) {
+        Guest guest = repository.findById(updatedGuest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException());
+
+        repository.save(updatedGuest);
     }
+
+    public Guest updateById(String id, Guest updatedGuest) {
+        Guest guest = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException());
+
+        guest.setName(updatedGuest.getName());
+        guest.setEmail(updatedGuest.getEmail());
+        guest.setAddress(updatedGuest.getAddress());
+
+        return repository.save(guest);
+    }
+
 
     @Override
     public void insertGuest(Guest guest) {

@@ -4,6 +4,7 @@ package edu.depaul.cdm.se.demo.dao;
 
 import com.google.api.core.ApiFuture;
 import com.google.firebase.database.*;
+import edu.depaul.cdm.se.demo.controller.ResourceNotFoundException;
 import edu.depaul.cdm.se.demo.entity.Guest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Repository
 @Qualifier("firebaseGuestData")
@@ -22,31 +25,27 @@ public class FirebaseGuestDaoImpl implements IGuestDao{
     @Autowired
     DatabaseReference firebaseDatabse;
 
-    //DeferredResult<Map<String, Guest>>
+    private String dbDocumentName = "guests";
 
     @Override
     public DeferredResult<Map<String, Guest>> getAllGuests() {
         final DeferredResult<Map<String, Guest>> result = new DeferredResult();
 
-        DatabaseReference dataRef = firebaseDatabse.child("guests");
+        DatabaseReference dataRef = firebaseDatabse.child(dbDocumentName);
+
         dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
-                // Get Guest as lists
-                Map<String, Guest>  guestList = snapshot.getValue(new GenericTypeIndicator<Map<String, Guest>>() {});
-
-                // do something here
-                System.out.println("-------------------------get all guest" + guestList.values().toString());
-
+                Map<String, Guest>  guestList = snapshot.getValue(new GenericTypeIndicator<LinkedHashMap <String, Guest>>() {});
                 result.setResult(guestList);
-            }
 
+                System.out.println(snapshot.getChildren());
+            }
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("Error: could not get all guest");
 
                 result.setErrorResult(databaseError);
             }
         });
-
         return result;
     }
 
@@ -59,7 +58,7 @@ public class FirebaseGuestDaoImpl implements IGuestDao{
 
     @Override
     public void deleteGuestById(String id) {
-        DatabaseReference dataRef = firebaseDatabse.child("guests");
+        DatabaseReference dataRef = firebaseDatabse.child(dbDocumentName);
 
 
         dataRef.orderByKey().equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -84,13 +83,65 @@ public class FirebaseGuestDaoImpl implements IGuestDao{
 
     @Override
     public void updateGuest(Guest guest) {
+        String id = guest.getId();
 
+        if (id == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        DatabaseReference dataRef = firebaseDatabse.child(dbDocumentName).child(id);
+
+        dataRef.setValue(guest, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    System.out.println("Data could not be saved " + databaseError.getMessage());
+                } else {
+                    System.out.println("Data saved successfully.");
+                }
+            }
+        });
     }
+
+    public Guest updateById(String id, Guest updatedGuest) {
+        Guest guest = getGuestById(id);
+        if (guest == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        /*
+        String id = guest.getId();
+
+        if (id == null) {
+            throw new ResourceNotFoundException();
+        }
+        */
+
+        guest.setName(updatedGuest.getName());
+        guest.setEmail(updatedGuest.getEmail());
+        guest.setAddress(updatedGuest.getAddress());
+
+        DatabaseReference dataRef = firebaseDatabse.child(dbDocumentName).child(id);
+
+        dataRef.setValue(guest, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    System.out.println("Data could not be saved " + databaseError.getMessage());
+                } else {
+                    System.out.println("Data saved successfully!");
+                }
+            }
+        });
+
+        return guest;
+    }
+
 
     @Override
     public void insertGuest(Guest guest) {
 
-        DatabaseReference dataRef = firebaseDatabse.child("guests");
+        DatabaseReference dataRef = firebaseDatabse.child(dbDocumentName);
 
         /**
          * Use push to save unique id
@@ -106,8 +157,8 @@ public class FirebaseGuestDaoImpl implements IGuestDao{
         guest.setId(id);
 
         ApiFuture<Void> guestSave =  dataRef.child(id).setValueAsync(guest);
-        boolean f = guestSave.isDone();
 
-        System.out.println("testing-firebase --- writeNew isdone: " + f);
+
+        System.out.println("testing-firebase --- writeNew isdone: ");
     }
 }

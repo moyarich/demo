@@ -1,8 +1,10 @@
 package edu.depaul.cdm.se.demo.dao;
 
 
+import com.google.api.core.ApiFuture;
+import com.google.api.core.SettableApiFuture;
+import edu.depaul.cdm.se.demo.controller.ResourceNotFoundException;
 
-import edu.depaul.cdm.se.demo.entity.Amenity;
 import edu.depaul.cdm.se.demo.entity.Guest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -14,11 +16,10 @@ import java.util.*;
 @Qualifier("fakeGuestData")
 public class FakeGuestDaoImpl implements IGuestDao {
 
-    private static Map<String, Guest> guestList;
+    private static TreeMap<String, Guest> guestList;
 
     static {
-
-        guestList = new HashMap<String, Guest>(){
+        guestList = new TreeMap<String, Guest>(){
 
             {
                 Guest g1 = new Guest();
@@ -40,7 +41,6 @@ public class FakeGuestDaoImpl implements IGuestDao {
                 put("1", g1);
                 put("2", g2);
                 put("3", g3);
-                put("4", g3);
             }
         };
     }
@@ -48,7 +48,9 @@ public class FakeGuestDaoImpl implements IGuestDao {
     @Override
     public DeferredResult<Map<String, Guest>> getAllGuests() {
         final DeferredResult<Map<String, Guest>> result = new DeferredResult();
-        new Thread(new Runnable() {
+
+        result.setResult(guestList);
+/*        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -58,7 +60,7 @@ public class FakeGuestDaoImpl implements IGuestDao {
                     result.setErrorResult(ex);
                 }
             }
-        }).start();
+        }).start();*/
         return result;
     }
 
@@ -79,13 +81,37 @@ public class FakeGuestDaoImpl implements IGuestDao {
 
     @Override
     public void updateGuest(Guest guest){
-        Guest s = guestList.get(guest.getId());
-        s.setName(guest.getName());
-        guestList.put(guest.getId(), guest);
+
+        String id = guest.getId();
+        if ( id == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        guestList.put(id, guest);
     }
+
+    public Guest updateById(String id, Guest updatedGuest) {
+        Guest guest = getGuestById(id);
+        if (guest == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        guest.setName(updatedGuest.getName());
+        guest.setEmail(updatedGuest.getEmail());
+        guest.setAddress(updatedGuest.getAddress());
+
+        guestList.put(id, guest);
+        return guest;
+    }
+
 
     @Override
     public void insertGuest(Guest guest) {
-        this.guestList.put(guest.getId(), guest);
+        System.out.println(guest);
+
+        String id=  Integer.toString(Integer.parseInt(guestList.lastKey()) + 1 );
+        guest.setId(id);
+
+        this.guestList.put(id, guest);
     }
 }

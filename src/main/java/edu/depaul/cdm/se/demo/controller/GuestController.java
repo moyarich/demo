@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import edu.depaul.cdm.se.demo.entity.Guest;
 import edu.depaul.cdm.se.demo.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -50,7 +51,14 @@ public class GuestController {
         guestService.updateGuest(guest);
     }
 
+
+    @PutMapping(value = "/{id}")
+    public Guest update(@PathVariable String id, @RequestBody Guest updatedGuest) {
+        return guestService.update(id,updatedGuest);
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.CREATED)
     public void insertGuest(@RequestBody Guest guest){
         guestService.insertGuest(guest);
     }

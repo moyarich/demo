@@ -30,14 +30,12 @@ public class Hotel {
 
     private Address address;
 
-    private List<Room> rooms = new ArrayList<>();
+    private List<String> roomList = new ArrayList<>();
+
+    private List<Reservation> reservations = new ArrayList<>();
+
+    private List<Employee> employees = new ArrayList<>();
 
     public Hotel() {
-    }
-
-    public Hotel(String id, String name, Address address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
     }
 }

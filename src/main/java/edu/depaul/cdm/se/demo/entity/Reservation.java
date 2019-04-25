@@ -29,12 +29,14 @@ public class Reservation {
     private Date checkIn;
     private Date checkOut;
 
-    private Guest accountHolder;
+    private String guestId;
 
     /**
-     * staff member who made reservation
+     * employee member who made reservation
      */
-    private Staff staff;
+    private String createdBy;
+
+    private String modifiedBy;
 
     /**
      * Hotel Amenities offered to customer
